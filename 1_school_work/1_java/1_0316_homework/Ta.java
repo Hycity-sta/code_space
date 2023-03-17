@@ -113,4 +113,5 @@ class Ci {
 		ci_C = 2*PI*(this.innerRadius+this.outerRadius);
 		out.println("这个圆环的周长是:"+String.format("%.2f",ci_C));
 	}
+
 }
