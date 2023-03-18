@@ -1,48 +1,23 @@
 import java.util.*;
-import static java.lang.System.out;
-public class Test {
-	public static void main(String[] argv) {
-		pass;
-	}
+public class test {
+    public static void main(String[] argv) {
+        son one = new son(10,11);
+        System.out.println(one.num);
+    }
 }
 
-class Shape {
-	String name;
-	String color;
-	
-	public void getArea() {}
+class father {
+    int num;
+    father(int num) {
+        this.num = num;
+    }
 }
 
-//圆
-class Round extends Shape {
-	double Round_r;
-	double Round_c;
-	double Round_area;
-	public void getArea() {
-		pass;
-	}
+class son extends father {
+    int age;
+    son (int age,int num) {
+        super(num); 
+        this.num = num;
+        this.age = age;
+    }
 }
-
-//矩形
-class Rectangle extends Shape {
-	double Rectangle_x;
-	double Rectangle_y;
-	double Rectangle_area;
-	public void getArea() {
-		pass;
-	}
-}
-
-//三角形
-class Triangle extends Shape {
-	public Triangle() {
-		
-	}
-	double Triangle_one;
-	double Triangle_two;
-	double Triangle_three;
-	public void getArea() {
-		pass;
-	}
-}
-
