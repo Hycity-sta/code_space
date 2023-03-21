@@ -8,6 +8,8 @@ typedef int ElemType; //这个是指定数据的类型
 typedef struct {
     ElemType data[MAXSIZE];//顺序表中的数据
     int length;//顺序表的当前长度
+               //有些顺序表还会弄出一个last用来代表数组最后一个元素的下标
+               //如果带有last的话, 下面那些算法的处理就会有点区别了
 }SqList; //这个是线性表中的顺序存储结构, 下面都叫顺序表
 
 
@@ -29,7 +31,6 @@ Status GetElem(SqList L, int i, ElemType *e) {
 }
 
 //在顺序表特定位置插入一个值
-//这里顺序表用指针传入了, 上面的那个就没有, 有指针的话会灵活一点
 Status ListInsert(SqList *L, int i, ElemType e) {
     int k;//这个用来计数的
     if (L->length==MAXSIZE) {
