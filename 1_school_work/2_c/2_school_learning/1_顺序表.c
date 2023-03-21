@@ -9,14 +9,14 @@
 #define MAXSIZE 30
 
 typedef int ElemType;
-typedef int Status;
 typedef int Position;
 typedef struct Node *PtoNode;
 typedef PtoNode List;
 
 struct Node {
     ElemType data[MAXSIZE];
-    Position Last;
+    Position Last;//这里是数组最后一个元素的下标
+    int Length;
 };
 
 /*
@@ -31,19 +31,19 @@ struct Node {
 
 //初始化顺序表
 List MakeEmpty() {
-    List L;
-    L = (List)malloc(sizeof(struct Node));
-    L->Last = -1;
-    return L;
+    List YouList;
+    YouList = (List)malloc(sizeof(struct Node));//记得需要创建一个内存空间分配给这个顺序表
+    YouList->Last = -1;
+    return YouList;
 }
 
-//在顺序表中查找具体的一个值
-Position Find(List L, ElemType x) {
+//在顺序表中查找具体的一个值,返回这个位置
+Position Find(List YouList, ElemType x) {
     Position i = 0;
-    while (i<=L->Last && L->data[i]!=x) {
+    while (i<=YouList->Last && YouList->data[i]!=x) {
         i++;
     }
-    if (i>L->Last) {
+    if (i>YouList->Last) {
         return ERROR;
     } 
     else {
@@ -52,35 +52,31 @@ Position Find(List L, ElemType x) {
 }
 
 //在顺序表中具体的一个位置中插入具体的一个值
-bool Insert(List L, ElemType x, int i) {
-    //从L的指定位序i前插入一个新元素x;位序i元素的数组位置下标是i-1
+bool Insert(List YouList, ElemType x, int i) {
     Position j;
-
-    if (L->Last == MAXSIZE-1){
-    //表空间已满,不能插入
-        printf("表满");
+    if (YouList->Last == MAXSIZE-1){
+        printf("error: this list is full");
         return false;
     }
-    if (i<1 || i>L->Last+2) {
-        //检查插入位序的合法性,是否在1~n+1之间. n为当前元素个数,即Last+1
+    if (i<1 || i>YouList->Last+2) {
         printf("位序不合法");
         return false;
     }
-    for(j=L->Last; j>=i-1;j--) {
-        L->data[j+1] = L->data[j];
+    for(j=YouList->Last; j>=i-1;j--) {
+        YouList->data[j+1] = YouList->data[j];
     }
-    L->data[i-1] = x;
-    L->Last++;
+    YouList->data[i-1] = x;
+    YouList->Last++;
     return true;
 }
 
 //在顺序表中删除具体位置中的这个值
+//i是位序
 bool Delete(List YouList, int i) {
-    //从L中删除指定位序i的元素,该元素数组下标为i-1
     Position j;
     if(i<1 || i>YouList->Last+1) {
         printf("位序%d不存在",i);//检查空表及删除位序的合法性
-        return FALSE;
+        return false;
     }
 
     for (j=i;i<=YouList->Last;j++){
@@ -91,29 +87,71 @@ bool Delete(List YouList, int i) {
 }
 
 //为顺序表中的data数组赋值
-List Input_list(List L, int n) {
-    L->Last = n;
-    for(int i = 0; i< L->Last; i++) {
-        scanf("%d",&L->data[i]);
+bool Input_list(List YouList, int n) {
+    YouList->Last = n-1;
+    YouList->Length = n;
+    for(int i = 0; i< n; i++) {
+        scanf("%d",&YouList->data[i]);//记得带地址符
     }
-    return L;
+    printf("\n");
+    return true;
 }
 
 //输出顺序表
-void Print_list(List L){
-    for(int i=0;i<L->Last;i++){
-        printf("%d ",L->data[i]);
+void Print_list(List YouList){
+    for(int i=0;i<YouList->Last+1;i++){
+        printf("%d ",YouList->data[i]);
     }
+    printf("\n");
 }
 
 
 //将两个顺序表中的数据合并
+void MergeList(List YouListA, List YouListB, List YouListC) {
+    int i,j,k;
+    i = j = 0;
+    k = 1;
+    while((i<YouListA->Length) && (j < YouListB->Length)) {
+        if (YouListA->data[i] < YouListB->data[j]) {
+            Insert(YouListC, YouListA->data[i++], k++);
+        }
+        else {
+            Insert(YouListC, YouListB->data[j++], k++);
+        }
+    }
 
+    while (i< YouListA->Length) {
+        Insert(YouListC, YouListA->data[i++], k++);
+    }
+    while (j < YouListB->Length) {
+        Insert(YouListC, YouListB->data[j++], k++);
+    }
+}
 
 
 int main(){
-    List mylist = MakeEmpty();
-    mylist = Input_list(mylist,5);
-    Print_list(mylist);
+    system("chcp 65001");
+    List la = MakeEmpty();
+    List lb = MakeEmpty();
+    List lc = MakeEmpty();
+    int n1,n2;
+
+    printf("输入n1: \n");
+    scanf("%d",&n1);
+    printf("输入la: \n");
+    Input_list(la,n1);
+
+    printf("输入n2: \n");
+    scanf("%d",&n2);
+    printf("输入lb: \n");
+    Input_list(lb,n2);
+
+    Print_list(lb);
+    Print_list(la);
+
+    MergeList(la,lb,lc);
+    printf("顺序表c现在是:\n");
+    Print_list(lc);
+    
     return 0;
 }
