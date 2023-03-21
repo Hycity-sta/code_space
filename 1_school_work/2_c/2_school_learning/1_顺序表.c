@@ -10,8 +10,8 @@
 
 typedef int ElemType;
 typedef int Position;
-typedef struct Node *PtoNode;
-typedef PtoNode List;
+typedef struct Node * PtoNode; //这儿的意思是将struct Node*这个指针类型 弄一个别名为PtoNode
+typedef PtoNode List;//List xxx 相当于struct Node * xxx, xxx是这个指针变量存地址用的
 
 struct Node {
     ElemType data[MAXSIZE];
@@ -109,8 +109,8 @@ void Print_list(List YouList){
 //将两个顺序表中的数据合并
 void MergeList(List YouListA, List YouListB, List YouListC) {
     int i,j,k;
-    i = j = 0;
-    k = 1;
+    i = j = 0; //这两个用来当下标
+    k = 1; //这个用来当c表的位序
     while((i<YouListA->Length) && (j < YouListB->Length)) {
         if (YouListA->data[i] < YouListB->data[j]) {
             Insert(YouListC, YouListA->data[i++], k++);
@@ -119,7 +119,8 @@ void MergeList(List YouListA, List YouListB, List YouListC) {
             Insert(YouListC, YouListB->data[j++], k++);
         }
     }
-
+    
+    //当其中一方的表遍历完了,那么就进入以下两个循环中的其中一个
     while (i< YouListA->Length) {
         Insert(YouListC, YouListA->data[i++], k++);
     }
