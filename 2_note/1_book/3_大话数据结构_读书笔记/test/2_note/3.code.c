@@ -98,12 +98,10 @@ Status ListDelete(LinkList L, int i, ElemType *e){
 void CreateListHead(LinkList L, int n) {
     LinkList p;//新建一个节点
     int i;//这个是计数器
-    srand(time(0));//初始化随机数种子
-    L = (LinkList)malloc(sizeof(struct Node));//给这个节点分配一个空间出来
     L->next = NULL;//建立了一个带头结点的链表,
     for (i=0;i<n;i++) {
          p = (LinkList)malloc(sizeof(struct Node));
-         p->data = rand()%100+1; //填一个随机数给数据域
+         p->data = 1; //随便填一个数字进去
          p->next = L->next;
          L->next = p;
     }
@@ -182,12 +180,16 @@ int Length(LinkList L) {
         p = p->next;
         cun++;
     }
-    return cun;
+    printf("%d",cun-1);
+    return cun-1;//不包括头结点
 }
 
 int main() {
-    LinkList a = (LinkList)malloc(sizeof(struct Node));
-    a->data = 0;
-    printf("%d",a->data);
+    LinkList a;
+    a = (LinkList)malloc(sizeof(struct Node));//给这个节点分配一个空间出来
+    a->data=0;
+    CreateListHead(a,3);
+    printf("%d\n",a->next->data);
+    Length(a);
     return 0;
 }
