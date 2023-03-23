@@ -1,0 +1,6 @@
+[
+{
+  "directory": "C:\\Users\\10068\\init\\3_codespace",
+  "arguments": ["C:\\Program Files\\mingw64\\bin\\x86_64-w64-mingw32-gcc.exe", "-c", "-m64", "-fvisibility=hidden", "-O3", "-DNDEBUG", "-o", "build\\.objs\\3_codespace\\mingw\\x86_64\\release\\test.c.obj", "test.c"],
+  "file": ""
+}]
