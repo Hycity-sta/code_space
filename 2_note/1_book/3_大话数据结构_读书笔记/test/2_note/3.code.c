@@ -1,7 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
-
 
 #define OK 1
 #define ERROR 0
@@ -33,7 +31,7 @@ Status GetElem(LinkList L, int i, ElemType *e) {
     int j;
     LinkList p;//声明一个节点是p,这个p就是下一个节点
     p = L->next;//让p指向下一个节点
-    j = 1;
+    j = 0;
     while (p && j<i) {//下一个节点要存在才行,然后依次遍历,找到那个地方
         p = p->next;//一直进入下一个节点,在i之前停下,刚好就就指到i了
         j++;
@@ -51,16 +49,16 @@ Status GetElem(LinkList L, int i, ElemType *e) {
 Status LinkInsert(LinkList L, int i, ElemType e) {
     int j;
     LinkList p, s;//搞两个节点出来,注意,这个是没有分配内存空间的
-    p = L->next;//将p指向线性表的头结点
+    p = L->next;//将p指向线性表的第一个非空结点
     j = 1;//设置位序为1
 
     //遍历链表,找到需要插入的位置
-    while (p && j<i) {
+    while (p && j<i-1) {
         p = p->next;
         j++;
     }
     //循环结束时,p应该指向i位置的结点上
-    if (!p || j>i) {
+    if (!p || j>i-1) {
         return ERROR;//i位置上是空表,要么j这个数据出错了,实际上j这个数据经过上面的循环后是不会出错的
     }
     s = (LinkList)malloc(sizeof(struct Node));//给新结点分配一个内存空间
@@ -70,6 +68,26 @@ Status LinkInsert(LinkList L, int i, ElemType e) {
     return OK;
     //最后三步的操作顺序不能调换,画个图的话会好理解一点
     //而且一步到位,因为不用再开第三个结点来存放原来的p->next
+}
+
+//替换具体位置的元素
+Status LinkReplace(LinkList L, int i, ElemType e) {
+    int j;
+    LinkList p, s;
+    p = L->next;//将p指向线性表的第一个非空结点
+    j = 1;//设置位序为1
+
+    //遍历链表,找到位置
+    while (p && j<i) {
+        p = p->next;
+        j++;
+    }
+    //循环结束时,p应该指向i位置的结点上
+    if (!p || j>i) {
+        return ERROR;
+    }
+    p->data = e;
+    return OK;
 }
 
 //删除链表L的第i个元素
@@ -124,12 +142,11 @@ void CreateListHead(LinkList L, int n) {
 void CreateListTail(LinkList L, int n) {
     LinkList p,r;
     int i;
-    srand(time(0));
     L = (LinkList)malloc(sizeof(struct Node));
     r = L;
     for (i=0; i<n; i++) {
         p = (LinkList)malloc(sizeof(struct Node));
-        p->data = rand()%100+1;
+        p->data = 1;
         r->next=p;
         r=p;
     }
@@ -158,16 +175,32 @@ Status ClearList(LinkList L) {
 
 //两个链表合并成一个新的链表,并且里面的数据都是有序的
 Status MerList(LinkList la, LinkList lb, LinkList lc) {
-    int i,j,k;
-    k = 1;
-    while (la && lb) {
-        if(la->data < lb->data) {
-            lc->data = la->data;
+    int k = 1;
+    LinkList i;
+    LinkList j;
+    i = la->next;
+    j = lb->next;
+    while (i && j) {
+        if(i->data < j->data) {
+            LinkReplace(lc, k++, i->data);
+            i = i->next;
         }
         else {
-            lc->data = lb->data;
+            LinkReplace(lc, k++, j->data);
+            j = j->next;
         }
     }
+    while (i) {
+        LinkReplace(lc, k++, i->data);
+        i = i->next;
+    }
+
+    while (j) {
+        LinkReplace(lc, k++, j->data);
+        j = j->next;
+    }
+
+    return OK;
 }
 
 //下面这个操作是学校的教材上的, 不是这本大话数据结构上的, 先放在这里
@@ -180,16 +213,61 @@ int Length(LinkList L) {
         p = p->next;
         cun++;
     }
-    printf("%d",cun-1);
+    //printf("%d",cun-1);
     return cun-1;//不包括头结点
 }
 
+// 创建一个空的头结点
+LinkList EmptyList(LinkList L) {
+    L = (LinkList)malloc(sizeof(struct Node));
+    return L;
+}
+
+//在链表中每一个节点插入特定的元素
+int InputListDate(LinkList L) {
+    LinkList p;
+    int n = Length(L);
+    int x;
+    p = L->next;
+    for (int i=0;i<n;i++) {
+        scanf("%d",&x);
+        p->data = x;
+        p = p->next;
+    }
+
+    return OK;
+}
+
+//将一个链表内部所有的数据输出
+int Print_list(LinkList L){
+    LinkList p;
+    int n = Length(L);
+    p = L->next;
+    for(int i=0;i<n;i++) {
+        printf("%d ",p->data);
+        p = p->next;
+    }
+    printf("\n");
+    return OK;
+}
+
 int main() {
-    LinkList a;
-    a = (LinkList)malloc(sizeof(struct Node));//给这个节点分配一个空间出来
-    a->data=0;
-    CreateListHead(a,3);
-    printf("%d\n",a->next->data);
-    Length(a);
+    LinkList a,b,c;
+    a = EmptyList(a);
+    b = EmptyList(b);
+    c = EmptyList(c);
+
+    CreateListHead(a,4);
+    CreateListHead(b,7);
+    CreateListHead(c,11);
+
+    InputListDate(a);
+    InputListDate(b);
+    Print_list(a);
+    Print_list(b);
+
+    MerList(a,b,c);
+    Print_list(c);
+
     return 0;
 }
