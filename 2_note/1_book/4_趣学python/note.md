@@ -1,9 +1,9 @@
-# note
+# python_note 
 - 这个笔记从列表开始,从这个笔记开始, 将笔记和代码融为一体.
 - 格式要求: 将每一个知识点罗列出来, 然后配上代码块来解释
 - 这里的笔记是根据<<趣学python>>中的目录体系来记录的.
 
-## 关于这本书
+## 关于 <<趣学python>> 这本书
 这本书主要是偏向于入门式的.
 对于完全没有学过计算机的人来说,这本书可以很好地了解到关于计算机编程语言中的一些术语.例如函数,对象等等.虽然在一些语言中会有一些差异, 但是知识都是差不多通用的.例如, 列表在其他语言中可能描述为数组.
 这本书因为入门的原因,在某些地方做了必要的省略,所以不会太深入.学习完这本书之后,会对python有一个整体的了解,但是对于其他具体的实现,就需要去看其他进阶的书籍了.
@@ -358,6 +358,18 @@ class Giraffes(Mammals):
 		pass
 ```
 
+## 使用具名参数
+这个玩意和普通的参数一样, 只是它不是按照函数所提供的参数的顺序来决定哪一个参数获取哪一个值. 我们可以明确地定义值的名字,所以可以写成任何顺序.
+有的时候,函数有很多参数, 我们不是总要所有的参数都赋值,具名参数可以让我们只为我们想给他赋值的参数赋值.
+下面两个代码是普通参数和具名参数的区别:
+```python
+def person(width,height):
+	print("width is $s, height is #s" % (width, height))
+# 1
+person(4,3)
+# 2
+person(height=3,width=4)
+```
 
 ## 为什么使用类和对象
 1. 可以通过.来调用类里面的函数. 
@@ -910,142 +922,7 @@ for x in range(1,61):
 ```
 上面这个代码会每隔一秒钟打印一次数字, sleep就是来让程序慢下来的.
 
-
-## 用tkinter画高级图形
-前面还有一个部分是用来介绍海龟作图的, 但是现代作图可不是用海龟画的.
-所以这里学习一个新的模块.
-> 注意的是: tkinter并不是现代gui的首选,qt模块才是现代gui比较常用的gui.
-> 所以这部分只是用来介绍一些使用模块的知识.
-
-#### 创建一个可以点的按钮
-```python
-from tkinter import *
-tk = TK()
-btn = Button(tk, text="click me")
-btn.pack()
-```
-第一行的from,是直接将模块里面的东西导入到这个文件里面. 这说明在接下来的使用过程中, 不用在用tkinter.xxx的形式来调用这个模块里面的函数了.
-但是, 如果函数发生重名的话, 就不太好用了. 而且这种方法还看不到模块名.
-上面的这个代码创建了一个包含TK类对象的变量tk, tk对象创建了一个基本的窗口, 我可以在上面增加其他东西. 这个是tkinter模块提供的最主要的类.
-.pack()是让那个按钮显示在那个窗口上.
-
-
-接下来是一个按下按钮显示文字的例子:
-```python
-from tkinter import *
-
-def hello():
-	print('hello')
-tk = Tk()
-btn = Button(tk, text="click me", command=hello)
-btn.pack()
-```
-当点击按钮的时候, 会在shell里面打印hello.
-上面的代码使用了一个具名参数
-
-#### 使用具名参数
-这个玩意和普通的参数一样, 只是它不是按照函数所提供的参数的顺序来决定哪一个参数获取哪一个值. 我们可以明确地定义值的名字,所以可以写成任何顺序.
-有的时候,函数有很多参数, 我们不是总要所有的参数都赋值,具名参数可以让我们只为我们想给他赋值的参数赋值.
-下面两个代码是普通参数和具名参数的区别:
-```python
-def person(width,height):
-	print("width is $s, height is #s" % (width, height))
-# 1
-person(4,3)
-# 2
-person(height=3,width=4)
-```
-
-#### 创建一个画图用的画布
-如果要画图的话, 需要一个canvas(画布)对象,也就是Canvas类的对象.
-当我们创建一个画布的时候,我们传入画布的宽度和高度(以像素为单位).
-```python
-from tkinter import *
-tk = Tk()
-canvas = Canvas(tk,width=500,height=500)
-canvas.pack()
-```
-pack函数让画布显示在窗口中正确的位置上,如果没有调用这个函数, 就不会正常地显示任何东西.
-
-#### 让窗口保持固定
-教程上的代码直接运行是看不到窗口的,还需要调用一个函数
-```python
-import tkinter
-windows = Tk()
-...
-windows.mainloop() #需要这个函数才会让窗口保持.
-```
-
-#### 画线
-需要用到像素坐标. 在一个tkinter画布上,坐标决定了从左到右和从上到下的距离.
-例如,500宽500高的窗口,起点坐标是在左上角(0,0),终点坐标在右下角(500,500)
-我们可以用cerate_line函数来指定这些坐标.
-```python
-from tkinter import *
-tk = Tk()
-canvas = Canvas(tk, width=500, height=500)
-canvas.pack()
-canvas.create_line(0,0,500,500) #1
-```
-返回了一个1, 这是一个标志, 以后再来了解他. 接下来看看canvas对象上都有哪些可用的函数,可以用他们来进行更有趣的绘画.
-#### 画盒子
-在下面这段代码中, 我们用tkinter创建一个400宽400高的画布,然后在窗口的左上角画一个正方形.
-```python
-from tkinter import *
-tk = Tk()
-canvas = Canvas(tk,width=400,height=400)
-canvas.pack()
-canvas.create_rectangle(10,10,50,50)
-```
-对于rectangle,前面两个数字分别是左上角定点的坐标(10,10),(这里的坐标系与godot差不多,y坐标向下), 最后两个数字是正方形右下角的坐标(50,50), 也可以用这个函数来画一个长方形.
-这个长方形的左上角顶点坐标是(10,10), 右下角顶点坐标是(300,50).
-```python
-from tkinter import *
-tk = Tk()
-canvas = Canvas(tk,width=400,height=400)
-canvas.pack()
-canvas.create_rectangle(10,10,300,50)
-tk.mainloop()
-```
-这里影响图形的就是开始坐标和结束坐标
-
-#### 画许多矩形
-可以用random随机模块, 然后写一个函数来用随机数作为矩形左上角和右下角的坐标
-```python
-from tkinter import *
-import random
-tk = Tk()
-canvas = Canvas(tk,width=400,height=400)
-canvas.pack()
-def random_rectangle(width,height):
-	x1 = random.randrange(width)
-	y1 = random.randrange(height)
-	x2 = x1 + random.randrange(width)
-	y2 = y1 + random.randrange(height)
-	canvas.create_rectangle(x1,y1,x2,y2)
-for x in range(0,100):
-	random_rectangle(400,400)
-tk.mainloop()
-```
-
-#### 设置颜色
-还可以为矩形设置颜色, 只需要将create_rectangle(x1,y1,x2,y2,fill = fill_color)里面添加那个fill参数就可以了.
-fill_color是一个颜色值, 可以是系统中设定好的颜色值,例如'green' 'yellow'... 但是颜色显示的是什么取决于系统.
-还可以用十六进制的颜色表示法, 例如:`#FFFFFF`
-在python里面也是可以将十六进制转换成十进制的, 使用%x来输出. 更多的细节可以上网查查, 还可以控制输出的位数.
-tkinter还提供里一个取色器来给我们使用.
-```python
-from tkinter import *
-colorchooser.askcolor()
-```
-这个代码会显示一个界面, 当选择一个颜色然后按下确定之后, shell就会返回一个元组, 元组里面还有一个元组和一个十六进制数, 那个元组表示的是红绿蓝的量, 十六进制表示的就是这个颜色.
-
-可以把这个元组当做一个变量来使用, 只需要用到索引.
-```python
-c = colorchooser.askcolor()
-random_rectangle(400,400,c[1])
-```
-
-## 结尾
-虽然书上关于如何用tkinter模块进行画图的部分还没有完全学完, 
-但是用这个东西画那些图形的意义不是很大.所以就到此为止了.
+# 结尾
+阅读完了这个笔记, 起码学会了:
+- 掌握python的基础语法.
+- 可以进入下一个阶段的python学习了, 比如学习qtpy模块.
