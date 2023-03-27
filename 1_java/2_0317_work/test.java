@@ -21,3 +21,11 @@ class son extends father {
         this.age = age;
     }
 }
+
+
+
+
+
+
+
+
