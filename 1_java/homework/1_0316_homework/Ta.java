@@ -1,3 +1,5 @@
+//练习类的创建
+
 package my;
 import static java.lang.System.out;
 import java.util.Arrays;

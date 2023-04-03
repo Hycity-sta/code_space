@@ -1,3 +1,5 @@
+//根据输入的路径
+//进行拆分,分成目录还有文件
 import java.util.*;
 import static java.lang.System.out;
 public class Tc {

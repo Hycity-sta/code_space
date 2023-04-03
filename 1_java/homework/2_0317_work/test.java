@@ -1,3 +1,5 @@
+//练习继承
+
 import java.util.*;
 public class test {
     public static void main(String[] argv) {

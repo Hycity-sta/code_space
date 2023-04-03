@@ -11,7 +11,7 @@ public class Test {
     }
 }
 
-public class Student {
+class Student {
     protected String id;
     protected String name;
     static int number = 0;
@@ -33,7 +33,7 @@ public class Student {
     }
 }
 
-public class Gra_Student extends Student {
+class Gra_Student extends Student {
     String teacher;
     Gra_Student(String id, String name, String teachername) {
         super(id,name);
@@ -48,7 +48,7 @@ public class Gra_Student extends Student {
     }
 }
 
-public class Teacher {
+class Teacher {
     String name;
     int age;
     Teacher(String name, int age) {
