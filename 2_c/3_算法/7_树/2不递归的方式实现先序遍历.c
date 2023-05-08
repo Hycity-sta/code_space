@@ -39,6 +39,7 @@ TreeNode insertNode(TreeNode root, int val) {
 typedef struct StackNode* StackNode;
 
 // 定义链表节点结构体
+// 这里单独封装了一个栈用来辅助二叉树的遍历实现
 struct StackNode {
     TreeNode data;
     StackNode next;

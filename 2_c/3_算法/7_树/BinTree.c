@@ -1,58 +1,66 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-typedef int ElementType;
-typedef struct TNode * Position;
-typedef Position BinTree;
-//二叉树的链表结构
-struct TNode {
-    ElementType Data;
-    BinTree Left;
-    BinTree Right;
+
+typedef struct TreeNode * BNode;
+// 定义二叉树结构体
+struct TreeNode {
+    int val;
+    BNode left;
+    BNode right;
 };
 
+
+// 创建新节点
+BNode createNode(int val) {
+    BNode node = malloc(sizeof(struct TreeNode));
+    node->val = val;
+    node->left = NULL;
+    node->right = NULL;
+    return node;
+}
+
+// 插入节点到二叉树中
+BNode insertNode(BNode root, int val) {
+    if (root == NULL) {
+        root = createNode(val);
+        return root;
+    }
+    if (val < root->val) {
+        root->left = insertNode(root->left, val);
+    } else {
+        root->right = insertNode(root->right, val);
+    }
+    return root;
+}
+
 //二叉树的中序遍历
-void InorderTraversal(BinTree BT) {
+void InorderTraversal(BNode BT) {
     if (BT) {
-        InorderTraversal(BT->Left);
-        printf("%d",BT->Data);
-        InorderTraversal(BT->Right);
+        InorderTraversal(BT->left);
+        printf("%d",BT->val);
+        InorderTraversal(BT->right);
     }
 }
 
 //二叉树的先序遍历
-void PreorderTraversal(BinTree BT) {
+void PreorderTraversal(BNode BT) {
     if (BT) {
-        printf("%d",BT->Data);
-        PreorderTraversal(BT->Left);
-        PreorderTraversal(BT->Right);
+        printf("%d",BT->val);
+        PreorderTraversal(BT->left);
+        PreorderTraversal(BT->right);
     }
 }
 
 //二叉树的后序遍历
-void PostorderTraversal(BinTree BT) {
+void PostorderTraversal(BNode BT) {
     if (BT) {
-        PostorderTraversal(BT->Left);
-        PostorderTraversal(BT->Right);
-        printf("%d",BT->Data);
+        PostorderTraversal(BT->left);
+        PostorderTraversal(BT->right);
+        printf("%d",BT->val);
     }
 }
 
-//二叉树的中序遍历的非递归实现
-void InorderTraversal_(BinTree BT) {
-    BinTree T;
-    Stack S = CreateStack();
-    T = BT;
-    while (T || !isEmpty(S)) {
-        while (T) {
-            Push(S,T);
-            T = T->Left;
-        }
-        T = Pop(S);
-        printf("%d",T->Data);
-        T = T->Right;
-    }
-}
 
 int main(int argc, char *argv[])
 {

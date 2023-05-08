@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-
+//这里的栈是用临时的数组来定义的,并没有专门封装成一个数据结构
 typedef struct TreeNode* TreeNode;
 
 // 定义二叉树结构体
@@ -34,33 +34,32 @@ TreeNode insertNode(TreeNode root, int val) {
     return root;
 }
 
-// 中序遍历二叉树（非递归实现）
-void inorderTraversal(TreeNode root) {
+void postorderTraversal(TreeNode root) {
     if (root == NULL) {
         return;
     }
 
-    // 定义一个栈来维护节点的访问顺序
-    TreeNode stack[100];
-    int top = -1;
+    TreeNode stack[100];    // 定义原栈
+    int top = -1;           // 初始化栈顶指针
+    stack[++top] = root;
 
-    while (1) {
-        // 将所有左子节点推入栈中
-        while (root != NULL) {
-            stack[++top] = root;
-            //printf("Push: %d\n", root->val);
-            root = root->left;
+    TreeNode assistStack[100];      // 定义辅助栈
+    int assistTop = -1;             // 初始化辅助栈顶指针
+
+    while (top != -1) {     // 如果原栈不为空，则继续遍历
+        TreeNode node = stack[top--];
+        assistStack[++assistTop] = node;
+
+        if (node->left != NULL) {
+            stack[++top] = node->left;
         }
-        // 如果栈为空，则遍历结束
-        if (top == -1) {
-            break;
+        if (node->right != NULL) {
+            stack[++top] = node->right;
         }
-        // 弹出栈顶元素并输出
-        root = stack[top--];
-        //printf("Pop: %d\n", root->val);
-        printf("%d ", root->val);
-        // 访问右子节点
-        root = root->right;
+    }
+
+    while (assistTop != -1) {       // 遍历辅助栈并输出各个节点值
+        printf("%d ", assistStack[assistTop--]->val);
     }
 }
 
@@ -73,7 +72,7 @@ int main() {
         root = insertNode(root, nodeValues[i]);
     }
 
-    inorderTraversal(root); // 中序遍历二叉树
+    postorderTraversal(root); // 后序遍历二叉树
 
     return 0;
 }
