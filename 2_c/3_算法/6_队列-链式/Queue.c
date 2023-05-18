@@ -1,105 +1,69 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// 链表节点结构体
-typedef struct Node {
-    int data;
-    struct Node *next;
-} Node;
+#define ERROR 0
+#define OK 1
+#define EMPTY -1 //用于空头结点的空值 
 
-// 队列结构体
-typedef struct Queue {
-    Node *front; // 队首指针
-    Node *rear; // 队尾指针
-} Queue;
+typedef int ElemType;
+typedef int Status;
 
-// 初始化队列
-void initQueue(Queue *queue) {
-    queue->front = NULL;
-    queue->rear = NULL;
+typedef struct Node * Ptolist;
+typedef Ptolist Node;
+struct Node {
+    ElemType data;
+    Node next;
+};
+
+
+typedef struct LinkQueue * PtoLinkQueue;
+typedef PtoLinkQueue queue;
+struct LinkQueue {
+    Node front,rear;
+};
+
+//创建一个带头结点的空队列
+//空队列中的front和rear都指向空的头结点
+queue InitLinkQueue(queue q, Node s) {
+    q = (queue)malloc(sizeof(struct LinkQueue));
+    s = (Node)malloc(sizeof(struct Node));
+    s->next = NULL;
+    s->data = EMPTY;
+    q->front = s;
+    q->rear = s;
+    return q;
 }
 
-// 判断队列是否为空
-int isEmpty(Queue *queue) {
-    return queue->front == NULL;
+Status EnQueue(queue q, ElemType e) {
+    Node s = (Node)malloc(sizeof(struct Node));
+    s->data = e;
+    s->next = NULL;
+    q->rear->next = s; //将当前的队尾结点的下一个指向s
+    q->rear = s; //更新对尾结点为现在的s
+    return OK;
 }
 
-// 入队
-void enQueue(Queue *queue, int data) {
-    Node *newNode = (Node*)malloc(sizeof(Node));
-    if(newNode == NULL) {
-        printf("内存分配失败\n");
-        exit(1);
-    }
-    newNode->data = data;
-    newNode->next = NULL;
-    if(queue->rear == NULL) {
-        queue->front = newNode;
-        queue->rear = newNode;
-    } else {
-        queue->rear->next = newNode;
-        queue->rear = newNode;
-    }
-}
+Status DeQueue(queue q, ElemType *e) {
+    Node p;
+    if (q->front==q->rear)
+        return ERROR;
+    p = q->front->next;
+    *e = p->data;
+    q->front->next = p->next;
 
-// 出队
-int deQueue(Queue *queue) {
-    if(isEmpty(queue)) {
-        printf("队列已空，无法出队\n");
-        exit(1);
-    }
-    Node *tmp = queue->front;
-    int data = tmp->data;
-    queue->front = tmp->next;
-    if(queue->front == NULL) {
-        queue->rear = NULL;
-    }
-    free(tmp);
-    return data;
-}
-
-// 获取队首元素
-int getFront(Queue *queue) {
-    if(isEmpty(queue)) {
-        printf("队列已空\n");
-        exit(1);
-    }
-    return queue->front->data;
-}
-
-// 获取队尾元素
-int getRear(Queue *queue) {
-    if(isEmpty(queue)) {
-        printf("队列已空\n");
-        exit(1);
-    }
-    return queue->rear->data;
-}
-
-// 打印队列元素
-void printQueue(Queue *queue) {
-    if(isEmpty(queue)) {
-        printf("队列为空\n");
-        return;
-    }
-    Node *tmp = queue->front;
-    while(tmp != NULL) {
-        printf("%d ", tmp->data);
-        tmp = tmp->next;
-    }
-    printf("\n");
+    if (q->rear == p)
+        q->rear = q->front; //队列中只有一个元素的情况下, 出队后就没有元素了, 所以要将rear指回空头结点
+    free(p);
+    return OK;
 }
 
 int main() {
-    Queue queue;
-    initQueue(&queue); // 初始化队列
-    enQueue(&queue, 10); // 入队
-    enQueue(&queue, 20);
-    enQueue(&queue, 30);
-    printQueue(&queue); // 打印队列中的元素
-    printf("队首元素：%d\n", getFront(&queue)); // 获取队首元素
-    printf("队尾元素：%d\n", getRear(&queue)); // 获取队尾元素
-    deQueue(&queue); // 出队
-    printQueue(&queue); // 打印队列中的元素
+    Node myNode;
+    queue myqueue = InitLinkQueue(myqueue, myNode);
+    EnQueue(myqueue,3);
+    int e;
+    //DeQueue(myqueue,&e);
+    printf("%d",myqueue->rear->data);
     return 0;
 }
+

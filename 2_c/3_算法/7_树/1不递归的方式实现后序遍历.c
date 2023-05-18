@@ -57,7 +57,7 @@ void postorderTraversal(BNode root) {
 
 int main() {
     BNode root = NULL;
-    const int nodeValues[] = {4, 2, 6, 1, 3, 5, 7};
+    const int nodeValues[] = {8,4,2,1,3,6,5,7,16,10,9,12,32,31,64};
     const int count = sizeof(nodeValues) / sizeof(int);
 
     for (int i = 0; i < count; ++i)
