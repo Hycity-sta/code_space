@@ -2,6 +2,7 @@
  * 这里的数组是从0开始的, 所以在某些运算上会做一些处理
  * 这里的最大堆的序列都是按照中序遍历的顺序进行排列的
  * 这里还没有实现排序
+ * 这里是用结构体的方式实现的,与纯数组的实现方式有一些区别
  * */
 
 #include <stdio.h>
@@ -102,15 +103,15 @@ void shiftUp(MaxHeap * heap, int i) {
 // 下沉操作，将根节点下沉到正确的位置
 void shiftDown(MaxHeap * heap, int i) {
 	int maxIndex = i;
-	int left_data = leftChild(i);
-	int right_data = rightChild(i);
+	int l_index = leftChild(i);
+	int r_index = rightChild(i);
 
 	// 找到当前节点、左子节点和右子节点中最大的一个
-	if (left_data < heap->size && heap->data[left_data] > heap->data[maxIndex]) {
-		maxIndex = left_data;
+	if (l_index < heap->size && heap->data[l_index] > heap->data[maxIndex]) {
+		maxIndex = l_index;
 	}
-	if (right_data < heap->size && heap->data[right_data] > heap->data[maxIndex]) {
-		maxIndex = right_data;
+	if (r_index < heap->size && heap->data[r_index] > heap->data[maxIndex]) {
+		maxIndex = r_index;
 	}
 
 	if (i != maxIndex) {
