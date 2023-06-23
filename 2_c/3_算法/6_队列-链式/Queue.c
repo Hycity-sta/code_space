@@ -18,6 +18,7 @@ struct Node {
 
 typedef struct LinkQueue * PtoLinkQueue;
 typedef PtoLinkQueue queue;
+
 struct LinkQueue {
     Node front,rear;
 };

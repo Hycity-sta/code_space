@@ -209,9 +209,6 @@ bool IsFullQ( Queue Q ) {
 }
 
 
-
-
-
 Stack CreateStack( ) {
 	/* 构建一个堆栈的头结点，返回该结点指针 */
 	Stack S;

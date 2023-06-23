@@ -1,8 +1,8 @@
-#include <stdio.h>
+#include <stdio.h> //@include
 #include <stdlib.h>
 #include <stdbool.h>
 
-typedef int ElementType;
+typedef int ElementType; //@type.definition @type.builtin @type
 typedef int Position;
 typedef struct SNode * PtrToSNode;
 struct SNode {
@@ -12,7 +12,7 @@ struct SNode {
 };
 typedef PtrToSNode Stack;
 
-Stack CreateStack(int Maxsize);
+Stack CreateStack(int Maxsize); //@parameter @variable @function
 bool IsFull(Stack S);
 bool Push(Stack S, ElementType X);
 bool IsEmpty(Stack S);
@@ -23,14 +23,14 @@ ElementType Pop_x(Stack S, int Tag);
 
 Stack CreateStack( int MaxSize ) {
 	Stack S = (Stack)malloc(sizeof(struct SNode));
-	S->Data = (ElementType *)malloc(MaxSize * sizeof(ElementType));
+	S->Data = (ElementType *)malloc(MaxSize * sizeof(ElementType)); //@keyword.operator
 	S->Top = -1;
 	S->MaxSize = MaxSize;
-	return S;
+	return S; //keyword.return
 }
 
 bool IsFull( Stack S ) {
-	return (S->Top == S->MaxSize - 1);
+	return (S->Top == S->MaxSize - 1); //@number
 }
 
 bool Push( Stack S, ElementType X ) {
@@ -49,7 +49,7 @@ bool IsEmpty( Stack S ) {
 
 ElementType Pop( Stack S ) {
 	if ( IsEmpty(S) ) {
-		printf("堆栈空");
+		printf("堆栈空"); //@function.call
 		return EOF; /* ERROR是ElementType的特殊值，标志错误 */
 	} else
 		return ( S->Data[(S->Top)--] );
@@ -85,3 +85,4 @@ ElementType Pop( Stack S ) {
 //		} else  return S->Data[(S->Top2)++];
 //	}
 //}
+//
