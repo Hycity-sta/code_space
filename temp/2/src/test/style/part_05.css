@@ -1,0 +1,30 @@
+.MainForm>ul {
+    padding:0;
+    margin:0;
+}
+
+.MainForm>ul>li {
+    list-style: none;
+    margin:10px;
+}
+
+.MainForm>ul>li>label {
+    display: inline-block;
+    text-align:center;
+    width:100px;
+}
+
+.MainForm>ul>li>input {
+    display: inline-block;
+    width:200px;
+}
+
+/*
+一共有多少个子元素, 就是括号里面的取值范围
+然后从0开始对n进行赋值, 计算结果
+如果结果在取值范围里面, 应用样式
+如果不在, 无事发生
+*/
+.MainForm>ul>li:nth-child(n+3)>input {
+    background-color: red;
+}

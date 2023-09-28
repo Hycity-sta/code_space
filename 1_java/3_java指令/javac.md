@@ -46,7 +46,7 @@ javac -cp bin -d bin src\com\two\Main.java
 在上面的例子中, 编译了Main和Person两个类, 分别产出了Person.class和Main.class两个类文件出来.
 前提是,Person和Main的代码里面只有Person和Main这两个类.
 要运行Main.class,要:
-javac -cp bin com.two.Main
+java -cp bin com.two.Main
 注意了, 这里很不一样.
 -cp指定了java要搜索的类路径, 当运行的.class文件有依赖的类的时候,就会在-cp指定的路径下进行查询.
 这里的-cp指定了bin目录.
